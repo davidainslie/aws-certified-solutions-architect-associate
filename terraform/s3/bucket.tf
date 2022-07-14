@@ -66,6 +66,36 @@ resource "aws_s3_object" "s3-bucket-website-files" {
   content_type = "text/html"
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "s3-website-bucket-lifecycle-rule" {
+  # Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.s3-website-bucket-versioning]
+
+  bucket = aws_s3_bucket.s3-website-bucket.bucket
+
+  rule {
+    id = "basic_config"
+    status = "Enabled"
+
+    filter {
+      prefix = "config/"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 90
+      storage_class   = "GLACIER"
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 120
+    }
+  }
+}
+
 output "s3-website-bucket" {
   value = aws_s3_bucket.s3-website-bucket.bucket
 }
