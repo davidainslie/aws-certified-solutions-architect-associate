@@ -52,3 +52,24 @@ Let's go through an example with the aid of some [terraform](../terraform/ec2/in
 - Launch an EC2 instance - this is where we will use AWS CLI.
 - Create an IAM user - giving the user permissions to access and create S3 resources.
 - Configure the AWS CLI using the IAM user's credentials - use the CLI to create a S3 bucket and upload a file.
+
+## Using Roles
+
+What is an IAM Role?
+> A Role is an identity you can create in IAM that has specific permissions.
+> A Role is similar to a user, as it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS.
+> However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it.
+
+Roles are temporary:
+> A Role does not have standard long-term credentials the same way passwords or access keys do.
+> Instead, when you assume a role, it provides you with temporary security credentials for your role session.
+
+What else can Roles do?
+> Roles can be assumed by people, AWS architecture, or other system-level accounts.
+> Roles can allow cross-account access - This gives one AWS account the ability to interact with resources in other AWS accounts.
+
+Let's go through an example with aid of some [terraform](../terraform/ec2/roles/main.tf):
+- Create a S3 bucket.
+- Create an IAM Role: Ensure it has S3 access.
+- Create an EC2 instance: Attach the Role that was created.
+- Access S3: Try to access S3 from our EC2 instance.
