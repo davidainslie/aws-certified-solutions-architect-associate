@@ -8,24 +8,13 @@ Other commands
 --------------
 ssh -i "key-pair.pem" ec2-user@3.84.75.118
 
-sudo su
-
-aws s3 ls <--- If not configured then the first time you will get "You can configure credentials by running 'aws configure'"
-
-aws configure
-
-aws s3 mb s3://my-bucket-055636501164
-make_bucket: my-bucket-055636501164
-
 aws s3 ls
-2022-07-21 19:14:08 my-bucket-055636501164
+2022-07-22 17:06:33 s3-bucket-20220722170632293600000001 <--- NOTE we do not have to "aws configure" as the assumed Role has the "S3 full access" policy attached
 
 echo "Hello" > hello.txt
 
-aws s3 cp hello.txt s3://my-bucket-055636501164
-upload: ./hello.txt to s3://my-bucket-055636501164/hello.txt
-
-aws s3 rb s3://my-bucket-055636501164 --force
+aws s3 cp hello.txt s3://s3-bucket-20220722170632293600000001
+upload: ./hello.txt to s3://s3-bucket-20220722170632293600000001/hello.txt
 
 
 terraform state list

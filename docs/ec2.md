@@ -73,3 +73,15 @@ Let's go through an example with aid of some [terraform](../terraform/ec2/roles/
 - Create an IAM Role: Ensure it has S3 access.
 - Create an EC2 instance: Attach the Role that was created.
 - Access S3: Try to access S3 from our EC2 instance.
+
+What you should conclude from this example (compared to the previous):
+- Preferred option
+  - Roles are preferred from a security perspective
+- Avoid hard coding your credentials
+  - Roles allow you to provide access without the use of access key ID and secret access key
+- Policies
+  - Policies control a role's permissions
+- Updates
+  - You can update a policy attached to a role, and it will take immediate effect
+- Attaching and detaching
+  - You can attach and detach roles to running EC2 instances without having to stop or terminate those instances
