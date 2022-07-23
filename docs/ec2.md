@@ -68,7 +68,7 @@ What else can Roles do?
 > Roles can be assumed by people, AWS architecture, or other system-level accounts.
 > Roles can allow cross-account access - This gives one AWS account the ability to interact with resources in other AWS accounts.
 
-Let's go through an example with aid of some [terraform](../terraform/ec2/roles/main.tf):
+Let's go through an example with aid of some `MUCH IMPROVED` [terraform](../terraform/ec2/roles/main.tf):
 - Create a S3 bucket.
 - Create an IAM Role: Ensure it has S3 access.
 - Create an EC2 instance: Attach the Role that was created.
@@ -85,3 +85,31 @@ What you should conclude from this example (compared to the previous):
   - You can update a policy attached to a role, and it will take immediate effect
 - Attaching and detaching
   - You can attach and detach roles to running EC2 instances without having to stop or terminate those instances
+
+## Security Groups and bootstrap scripts
+
+How computer communicate?
+- Linux: SSH on port 22
+- Windows: RDP on port 3389
+- HTTP: Web browsing on port 80
+- HTTPS: Encrypted web browsing (SSL) on port 443
+
+Security Groups:
+- These are virtual firewalls for your EC2 instance, and by default, everything is blocked i.e. don't give SG to EC2 then even you can't access it.
+- To let everything in use `0.0.0.0/0`, with the necessary port(s)
+
+Bootstrap script:
+- A script that runs when the instance first runs
+
+## EC2 Metadata and User Data
+
+What is EC2 metadata?
+- It is data about your EC2 instance
+  - Includes information such as `private IP address`, `public IP address`, `hostname`, `security groups` etc.
+- Using `curl`, we can query metadata about our EC2 instance, e.g. we could make a call as part of the `user data` and save to a file for say `local-ipv4`:
+  - ```shell
+    #!/bin/bash
+    curl http://169.252.169.254/latest/meta-data/local-ipv4 > myIP.txt
+    ```
+    
+Take a look at the [terraform](../terraform/ec2/meta-data/main.tf) which uses the previous terraform as a template, but we also output the EC2 IP in `index.html`.

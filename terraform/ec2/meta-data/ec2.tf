@@ -64,7 +64,10 @@ resource "aws_instance" "ec2" {
     inline = [
       "sudo yum update -y",
       "sudo yum -y install httpd && sudo systemctl start httpd",
-      "echo '<h1><center>Simple server set up with Terraform Provisioner</center></h1>' > index.html",
+      "echo '<html><body><h1><center>Simple server set up with Terraform Provisioner</center></h1>' > index.html",
+      "echo '<h2><center>Instance IP: ' >> index.html",
+      "curl http://169.254.169.254/latest/meta-data/public-ipv4 >> index.html",
+      "echo '</center></h2></body></html>' >> index.html",
       "sudo mv index.html /var/www/html/"
     ]
 
