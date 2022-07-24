@@ -4,6 +4,20 @@ EC2 is:
 - Secure, resizable compute capacity in the cloud
 - Like a VM, only hosted in AWS instead of your own data centre
 
+> Applications that run on an EC2 instance must include AWS credentials in their AWS API requests.
+> You could have Developers store AWS credentials directly within the EC2 instance to allow applications in that instance to use those credentials.
+> However, Developers would then have to manage those credentials and ensure that they securely pass the credentials to each instance and update each instance when it's time to rotate the credentials.
+> A better (and the recommended way) is to use Roles.
+> Roles are entities that define a set of permissions for making AWS service requests.
+> You can think of an IAM role for EC2 as what you can do.
+> But you can associate a role directly with an EC2 instance where you need an instance profile to do so.
+> An instance profile is an entity or a container that's used for connecting an IAM role to an EC2 instance.
+> So think of an instance profile as "who am I?".
+> i.e. the role is what can I do? And the instance profile is who am I?
+> Instance profiles provide temporary credentials, which are rotated automatically.
+> So, if a hacker gets into your server, and get the credentials, but those credentials only live for a short period of time.
+> When you create and attach the role to an EC2 instance in the AWS management console, the creation and use of the instance profile is actually handled behind the scenes.
+
 ## Pricing options
 
 There is an [AWS pricing calculator](https://calculator.aws/#/).
@@ -31,6 +45,21 @@ There is an [AWS pricing calculator](https://calculator.aws/#/).
     - Image rendering
     - Genomic sequencing
     - Algorithmic trading engines
+  - Use spot instances for stateless, fault-tolerant or flexible applications:
+    - Applications such as big data
+    - containerised workloads
+    - CI/CD
+    - high performance computing (HPC)
+    - and other test and development workloads
+  - You must first chose a `maximum spot price` e.g. $1 an hour - If spot prices go above this, you have `2 minutes` to choose whether to stop of terminate your instance.
+  - You can use `spot block` to avoid your spot instance being terminated (when price is above your maximum) for between 1 to 6 hours.
+  - Services you DONT want to run on spot instances:
+    - Persistent workloads
+    - Critical jobs
+    - Databases
+  - In order to run spot instances, you issue a `spot request` which contains the likes of `maximum price` and `number of instances required`.
+  - And you cannot just stop instances, you will have to first issue a `cancel request`.
+  - You can also issue a `spot fleet request` (a collection of spot instances and optionally on-demand instances), which will try and match the target capacity with your price restraints.
 - Dedicated
   - A physical EC2 server dedicated for your use - The most expensive option.
   - Compliance: Regulatory requirements that may not support multi-tenant virtualisation i.e. where underlying hardware is shared with other AWS customers which we can't have due to compliance.
@@ -86,6 +115,95 @@ What you should conclude from this example (compared to the previous):
 - Attaching and detaching
   - You can attach and detach roles to running EC2 instances without having to stop or terminate those instances
 
+Terraform is best, but here is an example of using the AWS CLI with regards to roles:
+```shell
+# Create a trust policy - This is a policy that allows an EC2 service to assume a role.
+# Remember, with terraform we created:
+# resource "aws_iam_role" "ec2-role" {
+#   name = "ec2-role"
+# 
+#   # Trust policy
+#   assume_role_policy = <<-EOT
+#     {
+#       "Version": "2012-10-17",
+#       "Statement": [{
+#         "Action": "sts:AssumeRole",
+
+# We can do this from the CLI by creating a JSON file e.g.
+vi trust-policy.json
+
+# In vi:
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Action": "sts:AssumeRole",
+    "Principal": { "Service": "ec2.amazonaws.com" },
+    "Effect": "Allow"
+  }]
+}
+
+# Create role:
+aws iam create-role --role-name DEV_ROLE --assume-role-policy-document file://trust-policy.json
+# where assume-role-policy-document equates to terraform assume_role_policy
+
+# Grant the role read access to one of our S3 buckets - Create an IAM policy that defines those permissions.
+# In terraform we just used the AWS managed policy "AmazonS3FullAccess". Here, create and edit:
+vi dev-read-access.json
+
+# In vi:
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Sid": "AllowUserToSeeBucketListInTheConsole",
+    "Action": ["s3:ListAllMyBuckets", "s3:GetBucketLocation"],
+    "Effect": "Allow",
+    "Resource": ["arn:aws:s3:::*"]
+  }, {
+    "Effect": "Allow",
+    "Action": ["s3:Get*", "s3:List*"],
+    "Resource": [
+      "arn:aws:s3:::dev-bucket/*",
+      "arn:aws:s3:::dev-bucket"
+    ]
+  }]
+}
+
+# Create an IAM policy referencing this policy document (in terraform we just did: data "aws_iam_policy"):
+aws iam create-policy --policy-name DevS3ReadAccess --policy-document file://dev-read-access.json
+
+# The output of the last command includes an ARN to be used e.g.
+"Arn": "arn:aws:iam:56893456:policy/DevS3ReadAccess"
+
+# Create an instance profile (in order to associate the policy with the role). So just like terraform "aws_iam_role_policy_attachment":
+aws iam attach-role-policy --role-name DEV_ROLE --policy-arn "arn:aws:iam:56893456:policy/DevS3ReadAccess"
+
+aws iam list-attached-role-policies --role-name DEV_ROLE
+
+# So create the instance profile:
+aws iam create-instance-profile --instance-profile-name DEV_PROFILE
+
+# And add role to the instance profile:
+aws iam add-role-to-instance-profile --instance-profile-name DEV_PROFILE --role-name DEV_ROLE
+
+aws iam get-instance-profile --instance-profile-name DEV_PROFILE
+
+# Associate the IAM instance profile with the EC2 instance ID:
+aws ec2 associate-iam-instance-profile --instance-id i-08945623d7e92b --iam-instance-profile Name="DEV_PROFILE"
+
+aws ec2 describe-instances --instance-ids i-08945623d7e92b
+
+# We could now ssh onto the EC2 instance to see that indeed it has assumed the role e.g.
+ssh ec2_user@3.238.91.90
+
+# and issue the command to the secure token service:
+aws sts get-caller-identity
+{
+  "Account": "56893456",
+  "UserId": "ADSFSATEASAFDASFDSDFGSAD:i-08945623d7e92b",
+  "Arn": "arn:aws:sts::56893456:assumed-role/DEV_ROLE/i-08945623d7e92b"
+}
+```
+
 ## Security Groups and bootstrap scripts
 
 How computer communicate?
@@ -113,3 +231,46 @@ What is EC2 metadata?
     ```
     
 Take a look at the [terraform](../terraform/ec2/meta-data/main.tf) which uses the previous terraform as a template, but we also output the EC2 IP in `index.html`.
+
+## Networking with EC2
+
+You can attach 3 different types of `virtual networking cards` to your EC2 instances:
+- ENI: Elastic Network Interface (simply a virtual network card - the default attached to an EC2 instance)
+  - For basic day-to-day networking
+  - Private IPv4 addresses
+  - Public IPv4 addresses
+  - Many IPv6 addresses
+  - MAC address
+  - 1 or more security groups
+  - Common use cases:
+    - Create a management network
+    - Use network and security applicances in your VPC
+    - Create dual-homed instances with workloads/roles on distinct subnets
+    - Create a low-budget high availability solution
+- EN: Enhanced Networking (for high performance networking between 10 to 100 Gbps)
+  - Uses single root I/O virtualisation (SR-IOV) to provide high I/O performance and lower CPU utilisation
+  - Provides higher bandwidth, higher packet per second (PPS) performance, and consistently lower inter-instance latencies
+  - Comes in 2 flavours:
+    - ENA: Elastic Network Adapter, supports network speeds up to 100 Gbps
+    - VF: Intel 82599 Virtual Function Interface, support up to 10 Gbps (typically used on older instances)
+- EFA: Elastic Fabric Adapter
+  - Accelerates High Performance Computing (HPC) and machine learning applications
+  - Provides lower and more consistent latency and higher throughput than the TCP transport traditionally used in cloud-based HPC systems
+  - Can use OS-bypass to be even faster with much lower latency, where applications can bypass the operating system kernel, on Linux, and communicate directly with the EFA device
+
+## Optimising with EC2 placement groups
+
+There are 3 types of placement groups:
+- Cluster
+  - Grouping of instances within a single Availability Zone.
+  - Recommended for applications that need low network latency, high throughput, or both.
+  - Only certain instance types can be launched into a cluster placement group.
+- Spread
+  - A group of instances that are each placed on distinct underlying hardware.
+  - Recommended for applications that have a small number of critical instances that should be kept separate from each other.
+- Partition
+  - Each partition placement group has its own set of racks, its own network and power source.
+
+## Timeing workloads with spot instances and spot fleets
+
+Take a look at the [terraform](../terraform/ec2/spot/main.tf).
