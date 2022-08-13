@@ -4,18 +4,18 @@ EC2 is:
 - Secure, resizable compute capacity in the cloud
 - Like a VM, only hosted in AWS instead of your own data centre
 
-> Applications that run on an EC2 instance must include AWS credentials in their AWS API requests.
-> You could have Developers store AWS credentials directly within the EC2 instance to allow applications in that instance to use those credentials.
-> However, Developers would then have to manage those credentials and ensure that they securely pass the credentials to each instance and update each instance when it's time to rotate the credentials.
-> A better (and the recommended way) is to use Roles.
-> Roles are entities that define a set of permissions for making AWS service requests.
-> You can think of an IAM role for EC2 as what you can do.
-> But you can associate a role directly with an EC2 instance where you need an instance profile to do so.
-> An instance profile is an entity or a container that's used for connecting an IAM role to an EC2 instance.
-> So think of an instance profile as "who am I?".
-> i.e. the role is what can I do? And the instance profile is who am I?
-> Instance profiles provide temporary credentials, which are rotated automatically.
-> So, if a hacker gets into your server, and get the credentials, but those credentials only live for a short period of time.
+> Applications that run on an EC2 instance must include AWS credentials in their AWS API requests. \
+> You could have Developers store AWS credentials directly within the EC2 instance to allow applications in that instance to use those credentials. \
+> However, Developers would then have to manage those credentials and ensure that they securely pass the credentials to each instance and update each instance when it's time to rotate the credentials. \
+> A better (and the recommended way) is to use Roles. \
+> Roles are entities that define a set of permissions for making AWS service requests. \
+> You can think of an IAM role for EC2 as what you can do. \
+> But you can associate a role directly with an EC2 instance where you need an instance profile to do so. \
+> An instance profile is an entity or a container that's used for connecting an IAM role to an EC2 instance. \
+> So think of an instance profile as "who am I?". \
+> i.e. the role is what can I do? And the instance profile is who am I? \
+> Instance profiles provide temporary credentials, which are rotated automatically. \
+> So, if a hacker gets into your server, and get the credentials, but those credentials only live for a short period of time. \
 > When you create and attach the role to an EC2 instance in the AWS management console, the creation and use of the instance profile is actually handled behind the scenes.
 
 ## Pricing options
