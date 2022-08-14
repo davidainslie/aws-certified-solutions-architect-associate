@@ -133,3 +133,73 @@ This is useful for:
 Use cases:
 - Content management systems: You can easily share content between EC2 instances.
 - Web servers: Have just a single folder structure for your website.
+
+## FSx for Windows
+
+Amazon FSx for Windows File Server provides a fully managed native Microsoft Windows file system so you can easily move your Windows-based applications that require file storage to AWS.
+
+FSx for Windows vs EFS
+
+| FSx for Windows                                                                                                                            | EFS                                                                                |
+|--------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| A managed windows server that runs Windows Server Message Block (SMB) based file services                                                  | A managed NAS filer for EC2 instances based on Network File System (NFS) version 4 |
+| Designed for Windows and Windows applications                                                                                              | One of the first network file sharing protocols native to Unix and Linux           |
+| Supports AD users, access control lists, groups, and security policies along with Distributed File System (DFS) namespaces and replication |                                                 |
+
+Then there is: Amazon FSx for Lustre
+- A fully managed file system that is optimised for compute-intensive workloads.
+- High performance computing
+- Machine learning
+- Media data processing workflows
+- Electronic design automation
+- Highly performant:
+  - With Amazon FSx you can launch and run a Lustre file system that can process massive datasets at up to hundreds of gigabytes per second of throughput, millions of IOPS, and sub-millisecond latencies.
+
+So when to use what?
+- EFS: When you need distributed, highly resilient storage for Linux instances and Linux-based applications.
+- Amazon FSx for Windows: When you need centralised storage for Windows-based applications, such as SharePoint, Microsoft SQL Server, Workspaces, IIS Web Server, or any other native Microsoft application.
+- Amazon FSx for Lustre: When you need high-speed, high-capacity distributed storage. This will be for applications that do high performance computing (HPC), financial modeling etc. And remember that FSx for Lustre can store data directly on S3.
+
+## AMI - Amazon Machine Images: EBS vs Instance Store
+
+An AMI provides the information required to launch an instance.
+
+5 things you can base your AMI on:
+- Region
+- Operating system
+- Architecture (32-bit or 64-bit)
+- Launch permissions
+- Storage for the root device (root device volume)
+
+All AMIs are categorised as either backed by:
+- Amazon EBS
+  - The root device for an instance launched from the AMI is an EBS volume created from an EBS snapshot.
+  - Notes on EBS volumes:
+    - EBS backed instances can be stopped.
+    - You will not lose the data on this instance if it is stopped.
+    - You can reboot an EBS volume and not lose your data.
+    - By default, the root device volume will be deleted on termination - You can tell AWS to keep the root device volume with EBS volumes.
+- Instance Store
+  - The root device for an instance launched from the AMI is an instance store volume created from a template stored in S3.
+  - Notes on instance store:
+    - Instance store volumes are sometimes called ephemeral storage.
+    - Instance store volumes cannot be stopped.
+    - If the underlying host fails, you will lose your data.
+    - However, you can reboot the instance without losing your data.
+    - If you delete the instance, you will lose the instance store volume.
+
+## AWS Backup
+
+Backup allows you to consolidate your backups across multiple AWS services such as:
+EC2, EBS, EFS, Amazon FSx for Lustre, Amazon FSx for Windows File Server, AWS Storage Gateway, RDS, DynamoDB.
+
+Backup can be used with AWS Organisations to back up multiple AWS accounts in your organisation.
+
+Benefits:
+- Central management
+  - Console allowing you to centralise your backups across multiple AWS service and multiple AWS accounts
+- Automation
+  - Create automated backup schedules and retention policies; create lifecycle policies, allowins you to expire unnecessary backups after a period of time
+- Improved compliance
+  - Backup policies can be enforced while backups can be encrypted both at rest and in transit, allowing alignment to regulatory compliance - Auditing is made easy due to consolidated view of backups across many AWS services
+
