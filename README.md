@@ -8,3 +8,4 @@
 - [S3](docs/s3.md)
 - [EC2](docs/ec2.md)
 - [EBS](docs/ebs.md)
+- [Databases](docs/databases.md)
