@@ -103,4 +103,57 @@ There is Amazon Aurora serverless:
 
 There is DynamoDB Accelerator (DAX):
 - Fully managed, highly available, in-memory cache.
-- 10x performance of DynamoDB, reducing request time from milliseconds to microseconds. 
+- 10x performance of DynamoDB, reducing request time from milliseconds to microseconds.
+
+Transactions can be used with DynamoDB, where these are called DynamoDB transactions.
+
+ACID for databases:
+- Atomic
+  - All changes to the data must be performed successfully or not at all.
+- Consistent
+  - Data must be in a consistent state before and after the transaction.
+- Isolated
+  - No other process can change the data while the transaction is running.
+- Durable
+  - The changes made by a transaction must persist.
+
+DynamoDB transactions provide developers atomicity, consistency, isolation and durability across 1 or more tables within a single AWS account and region.
+
+Some use cases for DynamoDB transactions:
+- Processing financial transactions.
+- Fulfilling and managing orders.
+- Building multiplayer game engines.
+- Coordinating actions across distributed components and services.
+
+Reads have 3 options:
+- eventual consistency
+- strong consistency
+- transactional
+
+Writes have 2 options:
+- standard
+- transactional
+
+DynamoDB backups:
+- On-demand backup and restore:
+  - Full backups at any time.
+  - Zero impact on table performance or availability.
+  - Consistent within seconds and retained until deleted.
+  - Operates within same region as the source table.
+- Point-in-time Recovery (PITR)
+  - Protects against accidental writes or deletes.
+  - Restore to any point in the last 35 days - achieved via incremental backups.
+  - Not enabled by default.
+  - Latest restorable is 5 minutes in the past.
+
+DynamoDB Streams and Global Tables - Taking your data global:
+- Streams:
+  - Time ordered sequence of item-level changes in a table, i.e. inserts, updates, deletes.
+  - Stored for 24 hours.
+  - Can combine with Lambda functions for functionality such as stored procedures.
+- Global tables
+  - Essentially replicating from one region to another.
+  - Great for globally distributed applications.
+  - The technology that drives this global replication is DynamoDB Streams.
+  - What we then get from these global tables is multi-region redundancy for disaster recovery or high availability.
+  - Replication latency under 1 second.
