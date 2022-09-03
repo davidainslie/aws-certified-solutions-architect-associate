@@ -75,20 +75,17 @@ resource "aws_instance" "ec2-private" {
   }
 }
 
-output "ec2-private-ip" {
-  value = aws_instance.ec2-private.private_ip
+module "shell-resource-private-subnet" {
+  source  = "Invicton-Labs/shell-resource/external"
+  command_unix = trimspace(
+    <<-EOT
+      echo PRIVATE SUBNET
+      echo IP:  ${aws_instance.ec2-private.private_ip}
+      echo SSH: ssh -o IdentitiesOnly=yes -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2-private.private_ip}
+    EOT
+  )
 }
 
-resource "null_resource" "ssh-command-private" {
-  triggers = {
-    always_run = timestamp()
-  }
-
-  provisioner "local-exec" {
-    command = trimspace(
-      <<-EOT
-        echo SSH from public subnet = ssh -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2-private.private_ip}
-      EOT
-    )
-  }
+output "private-subnet" {
+  value = module.shell-resource-private-subnet.stdout
 }

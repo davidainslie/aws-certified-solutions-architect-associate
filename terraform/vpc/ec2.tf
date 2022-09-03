@@ -72,20 +72,17 @@ resource "aws_instance" "ec2" {
   }
 }
 
-output "ec2-public-ip" {
-  value = aws_instance.ec2.public_ip
+module "shell-resource-public-subnet" {
+  source  = "Invicton-Labs/shell-resource/external"
+  command_unix = trimspace(
+    <<-EOT
+      echo PUBLIC SUBNET
+      echo IP:  ${aws_instance.ec2.public_ip}
+      echo SSH: ssh -o IdentitiesOnly=yes -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2.public_ip}
+    EOT
+  )
 }
 
-resource "null_resource" "ssh-command" {
-  triggers = {
-    always_run = timestamp()
-  }
-
-  provisioner "local-exec" {
-    command = trimspace(
-      <<-EOT
-        echo SSH = ssh -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2.public_ip}
-      EOT
-    )
-  }
+output "public-subnet" {
+  value = module.shell-resource-public-subnet.stdout
 }
