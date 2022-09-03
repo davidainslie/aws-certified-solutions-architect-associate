@@ -1,6 +1,6 @@
 # Create SG for allowing TCP/80 & TCP/22
-resource "aws_security_group" "sg" {
-  name        = "sg"
+resource "aws_security_group" "security-group-public" {
+  name        = "security-group-public"
   description = "Allow TCP/80 & TCP/22"
   vpc_id      = aws_vpc.vpc.id
 
@@ -29,13 +29,13 @@ resource "aws_security_group" "sg" {
 }
 
 # Create and bootstrap an EC2 instance for our public subnet
-resource "aws_instance" "ec2" {
+resource "aws_instance" "ec2-public" {
   ami                         = data.aws_ssm_parameter.ami.value
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.key-pair.key_name
   associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.sg.id]
-  subnet_id                   = aws_subnet.subnet1.id
+  vpc_security_group_ids      = [aws_security_group.security-group-public.id]
+  subnet_id                   = aws_subnet.subnet-public.id
 
   // TODO - Probably need a Role i.e. copying key-pair onto public instance must be insecure - Course we should set up a bastion
   provisioner "file" {
@@ -72,17 +72,17 @@ resource "aws_instance" "ec2" {
   }
 }
 
-module "shell-resource-public-subnet" {
+module "shell-resource-public" {
   source  = "Invicton-Labs/shell-resource/external"
   command_unix = trimspace(
     <<-EOT
       echo PUBLIC SUBNET
-      echo IP:  ${aws_instance.ec2.public_ip}
-      echo SSH: ssh -o IdentitiesOnly=yes -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2.public_ip}
+      echo IP:  ${aws_instance.ec2-public.public_ip}
+      echo SSH: ssh -o IdentitiesOnly=yes -i ${local_sensitive_file.pem-file.filename} ec2-user@${aws_instance.ec2-public.public_ip}
     EOT
   )
 }
 
-output "public-subnet" {
-  value = module.shell-resource-public-subnet.stdout
+output "public" {
+  value = module.shell-resource-public.stdout
 }

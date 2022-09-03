@@ -50,32 +50,14 @@ resource "aws_instance" "ec2-private" {
   key_name                    = aws_key_pair.key-pair.key_name
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.security-group-private.id]
-  subnet_id                   = aws_subnet.subnet2.id
-
-  /*
-  TODO - Only one of "inline", "script", or "scripts" must be set
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum -y install httpd && sudo systemctl start httpd",
-      "echo '<h1><center>Simple server set up with Terraform Provisioner</center></h1>' > index.html",
-      "sudo mv index.html /var/www/html/"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("./${aws_key_pair.key-pair.key_name}.pem")
-      host        = self.public_ip
-    }
-  }*/
+  subnet_id                   = aws_subnet.subnet-private.id
 
   tags = {
     Name = "privately-accessible-ec2"
   }
 }
 
-module "shell-resource-private-subnet" {
+module "shell-resource-private" {
   source  = "Invicton-Labs/shell-resource/external"
   command_unix = trimspace(
     <<-EOT
@@ -86,6 +68,6 @@ module "shell-resource-private-subnet" {
   )
 }
 
-output "private-subnet" {
-  value = module.shell-resource-private-subnet.stdout
+output "private" {
+  value = module.shell-resource-private.stdout
 }
