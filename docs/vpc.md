@@ -64,9 +64,22 @@ Default VPC vs custom VPC:
   - Fully customisable
   - Takes time to set up
 
-We can build a VPC in the UI or with [terraform](../terraform/vpc/main.tf).
+We can build a VPC in the UI or with [terraform (an example)](../terraform/vpc/main.tf).
 
 When creating a VPC, by default it creates:
 - main route table
 - main network ACL
 - security group
+
+## NAT Gateways for internet access (for EC2 instances in a private subnet)
+
+The terraform example includes the following:
+You can use a network address translation (NAT) gateway to enable instances in a private subnet to connect to the internet or other AWS services while preventing the internet from initiating a connection with those instances.
+
+So how does the private subnet get access `out`? The solution is to provision a NAT gateway in our public subnet. We'll essentially end up with:
+![NAT gateway](images/nat-gateway.jpg)
+
+- NAT gateways are redundant inside the Availability Zone
+- Starts at 5Gbps and scales currently to 45Gbps
+- Not associated with security groups
+- Automatically assigned a public IP address
