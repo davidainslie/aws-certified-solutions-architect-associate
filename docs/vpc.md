@@ -83,3 +83,39 @@ So how does the private subnet get access `out`? The solution is to provision a 
 - Starts at 5Gbps and scales currently to 45Gbps
 - Not associated with security groups
 - Automatically assigned a public IP address
+
+## Protecting your resources with security groups
+
+NOTE: If an inbound rule accepts a request, an outbound rule cannot prevent a response e.g.
+```
+EC2 instance <--------------- allow incoming on port 80 -----
+
+----- response to the port 80 request cannot be blocked ----->
+```
+
+The above is due to the fact that security groups are `stateful` - Next we see that network ACLs are `stateless`.
+
+## Controlling subnet traffic with network ACLs
+
+- A network access control list (ACL) is an optional layer of security for your VPC that acts as a firewall for contolling traffic in and out of one or more subnets.
+- You might set up network ACLs with rules similar to your security groups in order to add another layer of security to your VPC.
+
+Overview:
+- Default network ACLs:
+  - Your VPC automatically comes with a default network ACL, and by default it allows all inbound and outbound traffic.
+- Custom network ACLs:
+  - You can create custom network ACLs.
+  - By default each custom network ACL denies all inbound and outbound traffic until you add rules.
+- Subnet associations:
+  - Each subnet in your VPC must be associated with a network ACL.
+  - If you don't explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL.
+- Block IP addresses:
+  - Block IP addresses using network ACLs (not security groups).
+
+- You can associate a network ACL with multiple subnets; however, a subnet can be associated with only 1 network ACL at a time.
+  - When you associate a network ACL with a subnet, the previous associated is removed.
+- Network ACLs contain a numbered list of rules that are evaluated in order, starting with the lowest numbered rule.
+- Network ACLs have separate inbound and outbound rules, and each rule can either allow of deny traffic.
+- Network ACLs are `stateless`; reponses to allowed inbound traffic are subject to the rules for outbound traffic (and vice versa).
+
+Our [terraform example](../terraform/vpc/main.tf) shows the use of network ACL.

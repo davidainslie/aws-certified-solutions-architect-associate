@@ -54,7 +54,7 @@ resource "aws_instance" "ec2-public" {
     inline = [
       "sudo yum update -y",
       "sudo yum -y install httpd && sudo systemctl start httpd",
-      "echo '<h1><center>Simple server set up with Terraform Provisioner</center></h1>' > index.html",
+      "echo '<html><body><h1><center>Simple server set up with Terraform Provisioner</center></h1></body></html>' > index.html",
       "sudo mv index.html /var/www/html/",
       "sudo chmod 600 ${aws_key_pair.key-pair.key_name}.pem"
     ]
