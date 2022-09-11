@@ -3,8 +3,8 @@ AWS AMIs
 https://cloud-images.ubuntu.com/locator/ec2/
 
 terraform init
-terraform apply -var-file="secrets.tfvars"
-terraform destroy -var-file="secrets.tfvars"
+terraform apply -var-file="secrets.tfvars" -auto-approve
+terraform destroy -var-file="secrets.tfvars" -auto-approve
 
 --------------
 Other commands

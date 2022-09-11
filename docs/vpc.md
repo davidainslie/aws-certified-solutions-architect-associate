@@ -119,3 +119,6 @@ Overview:
 - Network ACLs are `stateless`; reponses to allowed inbound traffic are subject to the rules for outbound traffic (and vice versa).
 
 Our [terraform example](../terraform/vpc/main.tf) shows the use of network ACL.
+
+Under the example we have 2 versions of `ec2-public-acl.tf` <- this one being the default, or instead comment out its contents and uncomment the contents of `ec2-public-acl-whitelist.tf`.
+Where the second version only allows one particular IP to access our service (in this case, my dynamic IP at the time).
