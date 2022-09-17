@@ -1,3 +1,4 @@
+/*
 resource "aws_network_acl" "acl-public" {
   depends_on = [aws_instance.ec2-public]
 
@@ -54,3 +55,4 @@ resource "aws_network_acl" "acl-public" {
     Name = "acl-public"
   }
 }
+*/

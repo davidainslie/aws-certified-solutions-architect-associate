@@ -122,3 +122,22 @@ Our [terraform example](../terraform/vpc/main.tf) shows the use of network ACL.
 
 Under the example we have 2 versions of `ec2-public-acl.tf` <- this one being the default, or instead comment out its contents and uncomment the contents of `ec2-public-acl-whitelist.tf`.
 Where the second version only allows one particular IP to access our service (in this case, my dynamic IP at the time).
+
+## Private communication using VPC endpoints
+
+A VPC endpoint enables you to privately connect your VPC to supported AWS services and VPC endpoint services powered by PrivateLink without requiring an internet gateway, NAT device, VPN connection or AWS Direct Connect connection.
+
+Essentially VPC endpoints:
+- Traffic between your VPC and other service does not leave the Amazon network.
+- They are horizontally scaled, redundant and highly available VPC components that allow communication between instances in your VPC and services without imposing availability risks or bandwidth constraints on your network traffic.
+- 2 types of endpoints:
+  - Interface endpoints:
+    - An interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic headed to a supported service; they support a large number of AWS services.
+  - Gateway endpoints:
+    - Similar to NAT gateways, a gateway endpoint is a virtual device you provision; it supports connection to S3 and DynamoDB.
+
+E.g. our example that includes a private EC2 instance (where we might have a database running) can access S3 via a VPC endpoint instead of a NAT gateway (which goes out into the internet and back in).
+![VPC endpoint](images/vpc-endpoint.jpg)
+
+Our example provides our private instance with a Role to access S3, but instead of letting it go via the internet we'll utilise an endpoint.
+In order to do this we bundle up the resources in [iam.tf](../terraform/vpc/iam.tf).

@@ -51,6 +51,7 @@ resource "aws_instance" "ec2-private" {
   associate_public_ip_address = false
   vpc_security_group_ids      = [aws_security_group.security-group-private.id]
   subnet_id                   = aws_subnet.subnet-private.id
+  iam_instance_profile        = aws_iam_instance_profile.my-profile.id
 
   tags = {
     Name = "privately-accessible-ec2"
