@@ -141,3 +141,73 @@ E.g. our example that includes a private EC2 instance (where we might have a dat
 
 Our example provides our private instance with a Role to access S3, but instead of letting it go via the internet we'll utilise an endpoint.
 In order to do this we bundle up the resources in [iam.tf](../terraform/vpc/iam.tf).
+
+## Building solutions across (multiple) VPCs with peering
+
+Sometimes you may need to have several VPCs for different environments, and it may be necessary to connect these VPCs to each other.
+e.g.
+```
++----------+      +--------+     +--------+
+|Production|      | Content|     |Intranet|
+|Web       |      | VPC    |     +--------+
++----------+      +--------+
+```
+
+- Allows you to connect 1 VPC with another via a direct network route using private IP addresses.
+- Instances behave as if they were on the same network.
+- You can peer VPCs with other AWS accounts as well as with other VPCs in the same account.
+- Peering is in a star configuration e.g. 1 central VPC peers with 4 others (no transitive peering).
+- You can peer between regions.
+
+![VPC peering](../docs/images/vpc-peering.jpg)
+
+## Network privacy with AWS PrivateLink
+
+- It's the best way to expose a service VPC to tens, hundreds, or thousands of customer VPCs.
+- Doesn't require VPC peering; no route tables, NAT gateways, internet gateways etc.
+- Requires (as shown below) a network load balancer on the service VPC and an ENI on the customer VPC.
+
+![PrivateLink](../docs/images/privatelink.jpg)
+
+## Securing your network with VPN CloudHub
+
+If you have multiple sites, each with its own VPN connection, you can use AWS VPN CloudHub to connect those sites together.
+- Hub-and-spoke model (similar to VPC peering).
+- Low cost and easy to manage.
+- It operates over the public internet, but all traffic between the customer gateway and the AWS VPN CloudHub is encrypted.
+
+## Connecting on-premises with Direct Connect
+
+AWS Direct Connect is a cloud service solution that makes it easy to establish a dedicated network connection from your premises to AWS.
+
+2 types of Direct Connect connection:
+- Dedicated connection:
+  - A physical ethernet connection associated with a single customer.
+  - Customers can request a dedicated connection through the AWS Direct Connect console, CLI, or API.
+- Hosted connection:
+  - A physical ethernet connection that an AWS Direct Connect Partner provisions on behalf of a customer.
+  - Customers request a hosted connection by contacting a partner in the AWS Direct Connect Partner Program, who provision the connection.
+
+VPN vs Direct Connect:
+- VPNs allow private communication, but it still traverses the public internet to get the data delivered - While secure, it can be painfully slow.
+- Direct Connect is:
+  - Fast
+  - Secure
+  - Reliable
+  - Able to take massive throughput
+
+## Simplifying networks with Transit Gateway
+
+AWS Transit Gateway connects VPCs and on-premises networks through a central hub.
+This simplifies your network and puts an end to complex peering relationships.
+It acts as cloud router - each new connection is only made once.
+
+![Transit Gateway](../docs/images/transit-gateway.jpg)
+
+- Transit Gateway allows you to have transitive peering between thousands of VPCs and on-premises data centres.
+- Works on a hub-and-spoke model.
+- Works on a regional basis, but you can have it across multiple regions.
+- You can use it across multiple AWS accounts using RAM (Resource Access Manager).
+- You can use route tables to limit how VPCs talk to one another.
+- Works with Direct Connect as well as VPN connections.
+- Supports IP multicast (not supported by an other AWS service).
