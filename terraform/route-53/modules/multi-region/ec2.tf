@@ -49,7 +49,7 @@ resource "aws_instance" "ec2-public" {
       type        = "ssh"
       user        = "ec2-user"
       host        = self.public_ip
-      private_key = file("${path.root}/${aws_key_pair.key-pair.key_name}.pem")
+      private_key = file("modules/multi-region/${aws_key_pair.key-pair.key_name}.pem")
     }
   }
 

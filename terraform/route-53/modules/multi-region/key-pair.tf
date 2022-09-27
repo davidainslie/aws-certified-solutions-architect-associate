@@ -10,7 +10,7 @@ resource "aws_key_pair" "key-pair" {
 }
 
 resource "local_sensitive_file" "pem-file" {
-  filename = "${path.root}/${aws_key_pair.key-pair.key_name}.pem"
+  filename = "modules/multi-region/${aws_key_pair.key-pair.key_name}.pem"
   file_permission = "600"
   content = tls_private_key.private-key.private_key_pem
 }

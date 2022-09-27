@@ -57,4 +57,6 @@ module "us-west-2" {
   providers = {
     aws = aws.us-west-2
   }
+
+  depends_on = [module.us-east-1]
 }
