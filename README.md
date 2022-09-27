@@ -1,5 +1,7 @@
 # AWS Certified Solutions Architect Associate
 
+[AWS Regions](docs/aws-regions.md)
+
 ## Table of Contents
 
 - [Setup](docs/setup.md)
