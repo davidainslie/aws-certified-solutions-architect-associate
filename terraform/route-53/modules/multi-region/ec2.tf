@@ -20,6 +20,14 @@ resource "aws_security_group" "security-group-public" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "allow traffic from TCP/443"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -49,7 +57,7 @@ resource "aws_instance" "ec2-public" {
       type        = "ssh"
       user        = "ec2-user"
       host        = self.public_ip
-      private_key = file("modules/multi-region/${aws_key_pair.key-pair.key_name}.pem")
+      private_key = file("${path.root}/${aws_key_pair.key-pair.key_name}.pem")
     }
   }
 
@@ -58,7 +66,8 @@ resource "aws_instance" "ec2-public" {
   }
 }
 
-module "shell-resource-public" {
+module "shell-resource-ec2-public" {
+  depends_on = [aws_instance.ec2-public]
   source  = "Invicton-Labs/shell-resource/external"
   command_unix = trimspace(
     <<-EOT
@@ -69,6 +78,6 @@ module "shell-resource-public" {
   )
 }
 
-output "public" {
-  value = module.shell-resource-public.stdout
+output "ec2-public" {
+  value = module.shell-resource-ec2-public.stdout
 }

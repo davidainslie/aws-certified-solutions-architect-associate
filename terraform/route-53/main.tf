@@ -60,3 +60,11 @@ module "us-west-2" {
 
   depends_on = [module.us-east-1]
 }
+
+output "us-east-1-output" {
+  value = module.us-east-1.ec2-public
+}
+
+output "us-west-2-output" {
+  value = module.us-west-2.ec2-public
+}
