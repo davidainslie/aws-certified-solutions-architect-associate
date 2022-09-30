@@ -1,7 +1,7 @@
 # Create SG for allowing TCP/80 & TCP/22
 resource "aws_security_group" "security-group-public" {
   name        = "security-group-public-${var.name}"
-  description = "Allow TCP/80 & TCP/22"
+  description = "Allow TCP/80 & TCP/443 & TCP/22"
   vpc_id      = aws_vpc.vpc-public.id
 
   ingress {
@@ -13,7 +13,7 @@ resource "aws_security_group" "security-group-public" {
   }
 
   ingress {
-    description = "allow traffic from TCP/80"
+    description = "Allow traffic from TCP/80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -21,7 +21,7 @@ resource "aws_security_group" "security-group-public" {
   }
 
   ingress {
-    description = "allow traffic from TCP/443"
+    description = "Allow traffic from TCP/443"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
