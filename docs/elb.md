@@ -46,10 +46,13 @@ HTTPS load balancing:
 
 If your domain is registered with Route 53, that service will generate the certificate for you (they are a certificate signing authority) for you to add said certificate to your application load balancer.
 
-AT 7:40 of video
-setup terraform with elb for http
-duplicate and try with my domain and https
-
 ## Example
 
 Take a look at the terraform under [elb](../terraform/elb/main.tf) as an example of load balancing 3 EC2 instances.
+As well as using previous terraform examples within this project, I followed along with the excellent article [How to Deploy a Set of EC2 Instances behind an ALB Using Terraform](https://aws.plainenglish.io/deploy-a-set-of-ec2-instances-behind-an-alb-using-terraform-403fe584f09e).
+
+==========================================
+AT 7:40 of video
+setup terraform with elb for http
+duplicate and try with my domain and https
+==========================================
