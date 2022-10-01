@@ -35,7 +35,9 @@ resource "null_resource" "null" {
   provisioner "remote-exec" {
     inline = [
       "sudo yum update -y",
-      "sudo yum -y install httpd && sudo systemctl start httpd",
+      "sudo yum install httpd -y",
+      "sudo systemctl start httpd",
+      "sudo systemctl enable httpd",
       "echo '<html><body><h1><center>Web Server: ${count.index} (${var.aws-region})</center></h1></body></html>' > index.html",
       "sudo mv index.html /var/www/html/"
     ]

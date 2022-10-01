@@ -7,6 +7,7 @@ This can be done across multiple AZs.
 - Application load balancer (intelligent load balancer).
   - Best suited for load balancing of HTTP/HTTPS traffic; they operate at `layer 7` and are application-aware.
   - Limitation: Only supports `HTTP` and `HTTPS`.
+  - Intelligent routing such as allowing for `path pattern rules` to decide where to route to.
 - Network load balancer (performance load balancer).
   - Operating at the connection level (`layer 4`), capable of handling millions of requests per second, while maintaining ultra-low latencies.
 - Classic load balancer (classic/test/dev legacy load balancer).
@@ -52,7 +53,5 @@ Take a look at the terraform under [elb](../terraform/elb/main.tf) as an example
 As well as using previous terraform examples within this project, I followed along with the excellent article [How to Deploy a Set of EC2 Instances behind an ALB Using Terraform](https://aws.plainenglish.io/deploy-a-set-of-ec2-instances-behind-an-alb-using-terraform-403fe584f09e).
 
 ==========================================
-AT 7:40 of video
-setup terraform with elb for http
 duplicate and try with my domain and https
 ==========================================
