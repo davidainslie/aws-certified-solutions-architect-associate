@@ -1,19 +1,19 @@
-output "private_ip" {
-  value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_instance.ec2-public.*.private_ip)
+output "application-load-balancer-endpoint" {
+  value = aws_lb.lb.dns_name
 }
 
-output "public_ip" {
-  value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_eip.eip.*.public_ip)
-}
-
-output "public_dns" {
+output "public-dns" {
   value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_eip.eip.*.public_dns)
 }
 
-output "private_dns" {
+output "public-ip" {
+  value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_eip.eip.*.public_ip)
+}
+
+output "private-dns" {
   value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_instance.ec2-public.*.private_dns)
 }
 
-output "alb_id" {
-  value = aws_lb.lb.dns_name
+output "private-ip" {
+  value = zipmap(aws_instance.ec2-public.*.tags.Name, aws_instance.ec2-public.*.private_ip)
 }

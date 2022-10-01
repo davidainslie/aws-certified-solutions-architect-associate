@@ -52,6 +52,27 @@ If your domain is registered with Route 53, that service will generate the certi
 Take a look at the terraform under [elb](../terraform/elb/main.tf) as an example of load balancing 3 EC2 instances.
 As well as using previous terraform examples within this project, I followed along with the excellent article [How to Deploy a Set of EC2 Instances behind an ALB Using Terraform](https://aws.plainenglish.io/deploy-a-set-of-ec2-instances-behind-an-alb-using-terraform-403fe584f09e).
 
-==========================================
-duplicate and try with my domain and https
-==========================================
+## Extreme performance with network load balancers
+
+A network load balancer functions at the 4th layer of the Open Systems Interconnection (OSI) model.
+It can handle millions of requests per second.
+
+A listener checks for connection requests from clients, using the protocol and port you configure.
+The listener on a network load balancer then forwards the request to the target group.
+`There are no rules, unlike with application load balancers`.
+
+Supported protocols:
+- TCP
+- TLS
+- UDP
+- TCP_UDP
+
+Supported ports:
+- 1 to 65535
+
+Encryption:
+- You can use a TLS listener to offload the work of encryption/decryption to your load balancer so your applications can focus on their business logic.
+
+NOTE: If the listener protocol is TLS, you must deploy exactly one SSL server certificate on the listener.
+
+## Using classic load balancers
