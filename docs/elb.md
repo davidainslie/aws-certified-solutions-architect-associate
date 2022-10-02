@@ -76,3 +76,28 @@ Encryption:
 NOTE: If the listener protocol is TLS, you must deploy exactly one SSL server certificate on the listener.
 
 ## Using classic load balancers
+
+These are legacy load balancers.
+You can laod balance HTTP/HTTPS applications and use Layer 7 specific features such as `X-Forwarded-For` and `sticky sessions`.
+You can also use strict Layer 4 load balancing for applications that rely purely on the TCP protocol.
+
+X-Forwarded-For:
+- When traffic is sent from a load balancer, the server access logs contain the IP address of the proxy or load balancer only.
+- To see the original IP address of the client, the `X-Forwarded-For` request header is used.
+
+![X-Forwarded-For](images/x-forwarded-for.png)
+
+Gateway timeouts:
+- If your application stops responding, the classic load balancer responds with a 504 error.
+
+## Sticky sessions
+
+Classic load balancers route each request independently to the registered EC2 instance with the smallest load.
+
+`Sticky sessions` allow you to bind a user's session to a specific EC2 instance.
+However, you may want to disable sticky sessions because if a specific EC2 instance goes down, the LB will continue to direct traffic to that instance.
+
+## Leaving the load balancer with Deregistration Delay
+
+Deregistration delay allows load balancers to keep existing connections open if the EC2 instances are de-registered or become unhealthy.
+This enables the load balancer to complete in-flight requests made to instances that are de-registering or unhealthy.
