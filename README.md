@@ -14,3 +14,4 @@
 - [Virtual Private Cloud (VPC) Networking](docs/vpc.md)
 - [Route 53](docs/route-53.md)
 - [Elastic Load Balancing](docs/elb.md)
+- [CloudWatch](docs/cloudwatch.md)
