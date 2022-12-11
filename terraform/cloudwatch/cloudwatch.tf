@@ -1,3 +1,10 @@
+resource "aws_ssm_parameter" "cw-agent" {
+  name  = "/cloudwatch-agent/config"
+  description = "CloudWatch agent config to configure custom logs"
+  type  = "String"
+  value = file("cw-agent-config.json")
+}
+
 resource "aws_cloudwatch_metric_alarm" "cpu-utilization" {
   alarm_name                = "high-cpu-utilization-alarm"
   comparison_operator       = "GreaterThanOrEqualToThreshold"

@@ -1,3 +1,9 @@
+locals {
+  userdata = templatefile("user-data.sh", {
+    ssm-cloudwatch-config = aws_ssm_parameter.cw-agent.name
+  })
+}
+
 resource "aws_instance" "ec2-public" {
   ami                         = data.aws_ssm_parameter.ami.value
   instance_type               = "t2.micro"
@@ -5,36 +11,8 @@ resource "aws_instance" "ec2-public" {
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.security-group-public.id]
   subnet_id                   = aws_subnet.public-subnet.id
-
-    // TODO - Probably need a Role i.e. copying key-pair onto public instance must be insecure - Course we should set up a bastion
-  provisioner "file" {
-    source      = "key-pair.pem"
-    destination = "/home/ec2-user/${aws_key_pair.key-pair.key_name}.pem"
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      host        = self.public_ip
-      private_key = file("./${aws_key_pair.key-pair.key_name}.pem")
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update -y",
-      "sudo yum -y install httpd && sudo systemctl start httpd",
-      "echo '<html><body><h1><center>Simple server set up with Terraform Provisioner</center></h1></body></html>' > index.html",
-      "sudo mv index.html /var/www/html/",
-      "sudo chmod 600 ${aws_key_pair.key-pair.key_name}.pem"
-    ]
-
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      host        = self.public_ip
-      private_key = file("./${aws_key_pair.key-pair.key_name}.pem")
-    }
-  }
+  iam_instance_profile        = aws_iam_instance_profile.ec2-profile.name
+  user_data                   = local.userdata
 
   tags = {
     Name = "publicly-accessible-ec2"

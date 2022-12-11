@@ -15,3 +15,5 @@
 - [Route 53](docs/route-53.md)
 - [Elastic Load Balancing](docs/elb.md)
 - [CloudWatch](docs/cloudwatch.md)
+- [High Availability and Scaling](docs/auto-scaling.md)
+- [Decoupling Workflows](docs/decoupling-workflows.md)
