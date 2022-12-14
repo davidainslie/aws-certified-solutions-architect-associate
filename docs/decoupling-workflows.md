@@ -171,3 +171,90 @@ Configuring brokers:
   - With active/standby deployments, one instance will remain available at all times; configure network of brokers with separate maintenance windows.
 - Amazon MQ for RabbitMQ:
   - Cluster deployments are logical groupings of 3 broker nodes across multiple AZs sitting behind a network load balancer.
+
+## Coordinating distributed Apps with AWS Step Functions.
+
+- Orchestration:
+  - Serverless orchestration service combining different AWS services for business applications.
+- Graphical console:
+  - Comes with a graphical console for easier application workflow views and flows.
+- Components:
+  - Main components are state machines and tasks.
+- State machine:
+  - A particular workflow with different event-driven steps.
+- Task:
+  - Specific states within a workflow (state machine) representing a single unit of work.
+- States:
+  - Every single step within a workflow is considered a state.
+
+AWS Step Functions have 2 different types of workflows: Standard and Express.
+
+Each workflow has executions.
+Executions are instances where you run your workflows in order to perform your tasks.
+
+| Standard                                                         | Express                                                           |
+|------------------------------------------------------------------|-------------------------------------------------------------------|
+| Have an exactly-once execution                                   | At-least-once workflow execution                                  |
+| Can run for up to 1 year                                         | Can run for up to 5 minutes                                       |
+| Useful for long running workflows that need an auditable history | Useful for high event rate workflows                              |
+| Rates up to 2,000 executions per second                          | Example use is IoT data streaming and ingestion                   |
+| Pricing based per state transition                               | Pricing based on number of executions, durations, memory consumed |
+
+States and state machines:
+- Flexible:
+  - Leverage states to either make decisions based on input, perform certain actions, or pass output.
+- Language:
+  - States and workflows are defined in Amazon States Language (ASL).
+- States:
+  - States are elements within your state machines; they are referred to by a name.
+- Example:
+  - Thinks about an online pickup order: Each step in that workflow is considered a state.
+
+Some integrated AWS services:
+- Lambda
+- Batch
+- DynamoDB
+- ECS/Fargate
+- SNS
+- SQS
+- API Gateway
+- EventBridge
+
+Different states:
+- Pass: Passes any input directly to its output (no work done).
+- Task: Single unit of work performed (e.g. Lambda, Batch, SNS).
+- Choice: Adds branching logic to state machines.
+- Wait: Creates a specified time delay within the state machine.
+- Succeed: Stops executions successfully.
+- Fail: Stops executions and marks them as failures.
+- Parallel: Runs parallel branches of executions within state machines.
+- Map: Runs a set of steps based on elements of an input array.
+
+## Ingesting data from SaaS applications to AWS with Amazon AppFlow
+
+What is AppFlow?
+- Integration:
+  - Fully managed integration service for exchanging data between SaaS apps and AWS services.
+- Ingest data:
+  - Pulls data records from third-party SaaS vendors and stores them in S3.
+- Bi-directional:
+  - Bi-directional data transfers with limited combinations.
+
+Concepts:
+- Flow:
+  - Flows transfer data between sources and destinations; a variety of SaaS applications are supported.
+- Data mapping:
+  - Determines how your source data is stored within your destinations.
+- Filters:
+  - Criteria to control which data is transferred from a source to a destination.
+- Trigger:
+  - How the flow is started.
+  - Supported types: run on demand; run on event; run on schedule.
+
+![AppFlow](images/appflow.jpg)
+
+Use cases:
+- Transferring Salesforce records to Amazon Redshift.
+- Ingesting and analysing Slack conversations in S3.
+- Migrating Zendesk and other help desk support tickets to Snowflake.
+- Transferring aggregate data on a scheduled basis to S3.
