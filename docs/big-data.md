@@ -85,3 +85,82 @@ What is QuickSight?
 - It allows you to easily create dashboards and share them within your company.
 
 ## Moving transformed data using AWS Data Pipeline
+
+AWS Data Pipeline is a managed `Extract, Transform, Load (ETL)` service for automating movement and transformation of your data.
+
+- Data Driven
+  - Define data-driven workflows; steps are dependent on previous tasks completing successfully.
+- Parameters
+  - Define your parameters for data transformations; AWS Data Pipeline enforces your chosen logic.
+- Highly available
+  - AWS hosts the infrastructure on highly available and distributed infrastructure; also fault tolerant.
+- Handling failures
+  - Automatically retries failed activities; configure notifications via Amazon SNS for failures (or even successful tasks).
+- AWS storage services
+  - Integrates easily with Amazon DynamoDB, Amazon RDS, Amazon Redshift, Amazon S3.
+- AWS Compute
+  - Works with Amazon EC2 and Amazon EMR for compute needs.
+
+- Pipeline definition
+  - Specify the business logic of your data management needs.
+- Managed Compute
+  - Service will create EC2 instances to perform you activities; or leverage existing EC2.
+- Task Runners
+  - Task runners (EC2) poll for different tasks and perform them when found.
+- Data nodes
+  - Define the locations and types of data that will be input and output.
+
+Popular use cases:
+- Processing data in EMR using Hadoop streaming.
+- Importing or exporting DynamoDB data.
+- Copying CSV files or data between S3 buckets.
+- Exporting RDS data to S3.
+- Copying data to Redshift.
+
+## Implementing Amazon Managed Streaming for Apache Kafka (Amazon MSK)
+
+- Apache Kafka
+  - Fully managed service for running data streaming applications that leverage Apache Kafka.
+- Control plane
+  - Provides control-plane operations; creates, updates and deletes clusters as required.
+- Data plane
+  - Leverage Kafka data-plane operations for producing and consuming streaming data.
+- Existing applications
+  - Open-source versions of Apache Kafka allow support for existing apps, tools and plugins.
+
+- Broker nodes
+  - Specify the amount of broker nodes per AZ you want at time of cluster creation.
+- ZooKeeper nodes
+  - ZooKeeper nodes are created for you.
+- Producers, consumers and topics
+  - Kafka data-plane operations allow creation of topics and ability to produce/consume data.
+- Flexible cluster operations
+  - Perform cluster operations with the console, AWS CLI or APIs within any SDK.
+
+- Automatic recovery
+  - Automatic detection and recovery from common failure scenarios.
+- Detection
+  - Detected broker failures result in mitigation or replacement of unhealthy nodes.
+- Reduce data
+  - Tries to reuse storage from older brokers during failures to reduce data needing replication.
+- Time required
+  - Impact time is limited to however long it takes Amazon MSK to complete detection and recovery.
+- After recovery
+  - After successul recovery, producer and consumer apps continue to communicate with the same broker IP as before.
+
+- MSK serverless
+  - Cluster type within Amazon MSK offering serverless cluster management; automatic provisioning and scaling.
+- Fully compatible
+  - MSK serverless is fully compatible with Apache Kafka; use the same client apps for producing and consuming data.
+- MSK connect
+  - Allows developers to easily stream data to and from Apache Kafka clusters.
+
+Security and logging:
+- Integration with Amazon KMS for SSE requirements.
+- Encryption at rest by default.
+- TLS 1.2 for encryption in transit between brokers in clusters.
+- Deliver broker logs to Amazon CloudWatch, Amazon S3, Amazon Kinesis Data Firehose.
+- Metrics are gathered and sent to CloudWatch.
+- All Amazon MSK API calls are logged to AWS CloudTrail.
+
+## Analysing data with Amazon OpenSearch service
