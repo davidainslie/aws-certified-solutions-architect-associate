@@ -164,3 +164,23 @@ Security and logging:
 - All Amazon MSK API calls are logged to AWS CloudTrail.
 
 ## Analysing data with Amazon OpenSearch service
+
+OpenSearch is a managed service allowing you to run search and analytics engines for various use cases.
+It is the successor to Amazon Elasticsearch service.
+
+- Quck analysis
+  - Quickly ingest, search and analyse data in your clusters; commonly part of an ETL process.
+- Scalable
+  - Easily scale cluster infrastructure while running the open-source OpenSearch services.
+- Security
+  - Leverage IAM for access control, VPC security groups, encryption at rest and in transit, and field-level security.
+- Stability
+  - Multi AZ capable service with master nodes and automated snapshots.
+- Flexible
+  - It allows for SQL support for business intelligence (BI) apps.
+- Integrations
+  - Easily integrate it with Amazon CloudWatch, AWS CloudTrail, Amazon S3, and Amazon Kinesis.
+
+Scenario:
+- If creating a logging solution involving visualisation of log file analytics or BI reports... then...
+- OpenSearch could be the answer.
