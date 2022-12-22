@@ -49,3 +49,36 @@ If you need to automatically remove entries from a security group, start and sto
 | Must explicitly share if desired                                   |                                                   |
 
 ## Container overview
+
+What is a Container?
+- A container is a standard unit of software that `packages` up code and all its dependencies, so the application runs quickly and reliably from `one computing environment to another`.
+
+![Virtual machines vs Containers](images/virtual-machine-vs-container.jpg)
+
+- Dockerfile
+  - Text document that contains all the commands or instructions that will be used to build an image.
+- Image
+  - Immutable file that contains the code, libraries, dependencies, and configuration files needed to run an application.
+- Registry
+  - Stores Docker images for distribution; can be both private and public.
+- Container
+  - A running copy of the image that has been created.
+
+## Running Containers in ECS (Elastic Container Service) or EKS (Elastic Kubernetes Service)
+
+Having a handful of containers is fine, but when we get into the 10s and 100s we need help to manage all our containers. Enter ECS:
+- Management of containers at scale:
+  - ECS can manage 1, 10, hundreds, thousands of containers; it will appropriately place the containers and keep them online.
+- ELB integration:
+  - Containers are appropriately registered with the load balancers as they come online and go offline.
+- Role integration:
+  - Containers can have individual roles attached to them, making security a breeze.
+
+One downside of ECS, is that is propriety to AWS. To avoid this `tie-in` we can instead opt for Kubernetes.
+
+Kubernetes is an open-source container management and orchestration platform:
+- Open source alternative
+- Can be used on-premises and in the cloud
+
+Kubernetes itself can be pretty hard to configure/manage, and that is where EKS can help.
+EKS is an AWS-managed version of Kubernetes.
