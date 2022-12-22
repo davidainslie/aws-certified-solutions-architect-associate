@@ -82,3 +82,6 @@ Kubernetes is an open-source container management and orchestration platform:
 
 Kubernetes itself can be pretty hard to configure/manage, and that is where EKS can help.
 EKS is an AWS-managed version of Kubernetes.
+
+We have a full [ECS example](../terraform/ecs/main.tf) of a Node app that is dockerised; pushed to ECR; spin up ECS; include a load balancer; and deploy.
+This was just me following the blog [How to Deploy a Dockerised Application on AWS ECS with Terraform](https://medium.com/avmconsulting-blog/how-to-deploy-a-dockerised-node-js-application-on-aws-ecs-with-terraform-3e6bceb48785).

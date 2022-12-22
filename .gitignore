@@ -313,8 +313,10 @@ dmypy.json
 cython_debug/
 
 .env
+.credentials
 .credentials/
 /node_modules/
+**/node_modules/
 /package-lock.json
 /public/
 **/.terraform.lock.hcl
