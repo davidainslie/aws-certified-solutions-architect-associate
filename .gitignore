@@ -237,7 +237,6 @@ db.sqlite3
 db.sqlite3-journal
 
 # Flask stuff:
-terraform/ec2/instance-proxy/
 .webassets-cache
 
 # Scrapy stuff:
