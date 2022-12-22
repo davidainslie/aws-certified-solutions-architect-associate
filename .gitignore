@@ -317,7 +317,7 @@ cython_debug/
 .credentials/
 /node_modules/
 **/node_modules/
-/package-lock.json
+**/package-lock.json
 /public/
 **/.terraform.lock.hcl
 /terraform-5/metrics-server-0.3.6/
