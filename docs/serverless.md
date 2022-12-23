@@ -89,3 +89,8 @@ This was just me following the blog [How to Deploy a Dockerised Application on A
 Following the above, we have a similar example with [Scala exposing a http4s API](../terraform/ecs-scala/build.sbt).
 
 We go into more details in the [docker readme](docker.md).
+
+ECS has three parts: clusters, services, and tasks.
+- Tasks are JSON files that describe how a container should be run e.g. you need to specify the ports and image location for your application.
+- A service simply runs a specified number of tasks and restarts/kills them as neededl this has similarities to an auto-scaling group for EC2.
+- A cluster is a logical grouping of services and tasks.
