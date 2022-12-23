@@ -87,3 +87,5 @@ We have a full [Node ECS example](../terraform/ecs-node/main.tf) of a Node app t
 This was just me following the blog [How to Deploy a Dockerised Application on AWS ECS with Terraform](https://medium.com/avmconsulting-blog/how-to-deploy-a-dockerised-node-js-application-on-aws-ecs-with-terraform-3e6bceb48785).
 
 Following the above, we have a similar example with [Scala exposing a http4s API](../terraform/ecs-scala/build.sbt).
+
+We go into more details in the [docker readme](docker.md).

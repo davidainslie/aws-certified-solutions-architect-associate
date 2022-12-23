@@ -27,8 +27,10 @@ resource "null_resource" "docker-build" {
     working_dir = "."
 
     command = <<-EOT
+      cd ../app
       docker build -t ${aws_ecr_repository.backwards-ecr.name} .
       docker tag ${aws_ecr_repository.backwards-ecr.name}:latest ${aws_ecr_repository.backwards-ecr.repository_url}:latest
+      cd -
     EOT
   }
 }
