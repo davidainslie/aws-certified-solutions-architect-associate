@@ -2,7 +2,7 @@ resource "aws_ecr_repository" "backwards-ecr" {
   name = "backwards-ecr"
 }
 
-# Retrieve an authentication token and authenticate your Docker client to your registry - Use the AWS CLI:
+# Retrieve an authentication token and authenticate your Docker client to your registry - Use the AWS CLI.
 
 # aws ecr get-login
 data "aws_ecr_authorization_token" "ecr-token" {}
