@@ -50,3 +50,7 @@ resource "aws_lb_listener" "listener" {
     target_group_arn = aws_lb_target_group.target-group.arn
   }
 }
+
+output "dns" {
+  value = aws_alb.node-app-alb.dns_name
+}

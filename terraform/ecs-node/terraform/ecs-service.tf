@@ -38,9 +38,9 @@ resource "aws_ecs_service" "node-app-service" {
   task_definition = aws_ecs_task_definition.node-app-task.arn # Referencing the task our service will spin up
   launch_type     = "FARGATE"
   desired_count   = 3                                         # Setting the number of containers we want deployed to 3
-  security_groups = [aws_security_group.service-security-group.id]
 
   network_configuration {
+    security_groups = [aws_security_group.service-security-group.id]
     assign_public_ip = true # Providing our containers with public IPs
 
     subnets = [
