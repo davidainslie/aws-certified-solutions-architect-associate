@@ -94,3 +94,27 @@ ECS has three parts: clusters, services, and tasks.
 - Tasks are JSON files that describe how a container should be run e.g. you need to specify the ports and image location for your application.
 - A service simply runs a specified number of tasks and restarts/kills them as neededl this has similarities to an auto-scaling group for EC2.
 - A cluster is a logical grouping of services and tasks.
+
+## Removing servers with Fargate
+
+Fargate is a serverless compute engine for containers that works with both Elastic Container Service (ECS) and Elastic Kubernetes Service (EKS).
+So when using Fargate, you have to chose whether to depend on ECS or EKS.
+
+| EC2                                                 | Fargate                                                                           |
+|-----------------------------------------------------|-----------------------------------------------------------------------------------|
+| You are responsible for underlying operating system | No operating system access                                                        |
+| EC2 pricing model                                   | Pay based on resources allocated and time run - Generally more expensive than EC2 |
+| Long-running containers                             | Short-running tasks                                                               |
+| Multiple containers share the same host             | Isolated environments                                                             |
+
+| Fargate                                                                  | Lambda                                                              |
+|--------------------------------------------------------------------------|---------------------------------------------------------------------|
+| Select Fargate when you have consistent workloads                        | Greate for unpredictable or inconsistent workloads                  |
+| Allows Docker use across the organisation and a greater level of control | Perfect for applications that can be expressed as a single function |
+|                                                                          | Time-contraint                                                      |
+
+Summary:
+
+Lambda: short running; well defined ---> Fargate: more complex container that don't need to run all the time ---> EC2: full blown apps running potentially 24/7
+
+## Amazon EventBridge (CloudWatch Events)
