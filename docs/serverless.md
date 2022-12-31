@@ -118,3 +118,46 @@ Summary:
 Lambda: short running; well defined ---> Fargate: more complex container that don't need to run all the time ---> EC2: full blown apps running potentially 24/7
 
 ## Amazon EventBridge (CloudWatch Events)
+
+Amazon EventBridge (formly known as CloudWatch Events) is a serverless event bus.
+It allows you to pass events from a source to an endpoint.
+Essentially, it's the glue that holds your serverless application together.
+E.g. a common use case is triggering Lambda functions when an AWS API call happens.
+
+Creating a rule:
+- Define pattern:
+  - Do you want the rule to be invoked based on an event happening? Or do you want this to be scheduled?
+- Select event bus:
+  - Is this going to be an AWS-based event? A custom event? Or a partner?
+- Select your target:
+  - What happens when this event kicks off? Do you trigger a Lambda function? Post to a SQS queue? Send an email?
+- Tag:
+  - You should/need to tag everything.
+- Sit back:
+  - Wait for the event to happen - Or kick it off yourself to make sure it's working correctly.
+
+## Storing custom Docker images in Amazon Elastic Container Registry (ECR)
+
+ECR:
+- An AWS managed container image registry that offers secure, scalable, and reliable infrastructure.
+- Private container image repositories with resource-based permissions via IAM.
+- Supports Open Container Initiative (OCI) images, Docker images, and OCI artifacts.
+
+Lifecycle policies:
+- Helps management of images in your repositories.
+- Defines rules for cleaning up unused images.
+- Ability to test your rules before applying them.
+
+Image scanning:
+- Help identity software vulnerabilites in your container images.
+- Repositories can be set to scan on push.
+- Retrieve results of scana for each image.
+
+Sharing:
+- Cross-region support.
+- Cross-account support.
+- Configured per repository and per region.
+
+Tag mutability:
+- Prevents image tags from being overwritten.
+- Configured per repository.
