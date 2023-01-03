@@ -161,3 +161,46 @@ Sharing:
 Tag mutability:
 - Prevents image tags from being overwritten.
 - Configured per repository.
+
+## Open source Kubernets in Amazon EKS Distro
+
+- EKS-D:
+  - Amazon EKS Distro (EKD-D) is a Kubernetes distribution based on and used by Amazon EKS.
+- Similarities:
+  - It has the same versions and dependencies deployed by Amazon EKS.
+- Differences:
+  - EKS-D is fully managed by you, unlike Amazon EKS, which is managed by AWS.
+- Where:
+  - Run EKS-D anywhere; on-premises, in the cloud, or somewhere else.
+- You responsibility:
+  - Bottom line; you are fully responsible for upgrading and managing your platforms.
+
+## Orchestrating containers outside AWS using Amazon EKS Anywhere and Amazon ECS Anywhere
+
+EKS Anywhere:
+- On-premises EKS:
+  - An on-premises way to manage Kubernetes (K8s) clusters with the same practices used for Amazon EKS
+- EKS Distro:
+  - Based on EKS Distro
+  - Allows for deployment, usage, and management methods for clusters in data centres.
+- Lifecycle:
+  - Offers full lifecycle management of multiple K8s clusters.
+  - Operates independently of AWS.
+
+ECS Anywhere:
+- Feature of Amazon ECS allowing the management of container-based apps on-premises.
+- No orchestration needed:
+  - No need to install and operate local container orchestration software, meaning more operation efficiency.
+- Completely managed:
+  - Completely managed solution enabling standardisation of container management across environments.
+- Inbound traffic:
+  - Keep in mind, no ELB support, makes inbound traffic requirements less efficient.
+- External:
+  - New launch type noted as `EXTERNAL` for creating services or running tasks.
+- Requirements:
+  - Must have SSM Agent, ECS agent and Docker installed.
+  - First register instances as SSM managed instances.
+  - You can easily create an installation script within the ECS console.
+  - Scripts contain SSM activation keys and commands for required software.
+  - Execute scripts on your on-premises VMs or bare-metal servers.
+  - Deploy containers using the `EXTERNAL` launch type.
