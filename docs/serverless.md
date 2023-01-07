@@ -204,3 +204,86 @@ ECS Anywhere:
   - Scripts contain SSM activation keys and commands for required software.
   - Execute scripts on your on-premises VMs or bare-metal servers.
   - Deploy containers using the `EXTERNAL` launch type.
+
+## Auto-scaling databases on demand with Amazon Aurora serverless
+
+Two terms to be able to differentiate: `Aurora Provisioned` and this one which is `Aurora Serverless:
+- On demand:
+  - On demand and auto scaling configuration for the Amazon Aurora database service.
+- Automate:
+  - Automation of monitoring workloads and adjusting capacity for databases.
+- Based on demand:
+  - Capacity adjusted based on application demands.
+- Billing:
+  - Charged for resources consumed by DB clusters; per-second billing.
+- Budget friendly:
+  - Helps customers stay well within budgets via the auto scaling and per-second billing features.
+
+Aurora serverless concepts:
+- Aurora capacity units (ACUs): Measurements on how your clusters scale.
+- Set minimum and maximum ACUs for scaling requirements (can be zero).
+- Allocated (quickly) by AWS-managed warm pools.
+- Combination of about 2 GiB of memory, matching CPU, and networking capability.
+- Same data resiliency as Aurora provisioned: 6 copies of data across 3 AZs.
+- Multi-AZ deployments for establishing highly available clusters.
+
+Use cases:
+- Variable workloads:
+  - Unpredictable or sudden activity.
+- Multi-tenant apps:
+  - Let the service manage database capacity for each individual app.
+- New apps:
+  - Unsure what database instance needs are required.
+- Dev and test:
+  - Developement or testing of new features.
+- Mixed-use apps:
+  - App might serve more than one purpose with different traffic spikes.
+- Capacity planning:
+  - Easily swap from provisioned to serverless and vice-versa.
+
+## AWS X-Ray for application insights
+
+- App insights:
+  - Collects application data for viewing, filtering, and gaining insights about requests and responses.
+- Downstream:
+  - View calls to downstream AWS resources and other microservices/APIs or databases.
+- Traces:
+  - Receives traces from your applications for allowing insights.
+- Multiple options:
+  - Integrated services can add tracing headers, send trace data, or run the X-Ray daemon.
+
+Concepts:
+- `Segments`: Data containing resource names, request details, and other information.
+- `Subsegments`: Segments providing more granular timing information and details.
+- `Service graph`: Graphical representation of interacting services in requests.
+- `Traces`: Trace ID tracks paths of requests and traces collect all segments in a request.
+- `Tracing header`: Extra HTTP header containing sampling decisions and trace ID.
+- Tracing header containing added information is named: `X-Amzn-Trace-Id`.
+
+AWS X-Ray daemon:
+- AWS software application that listens on `UDP port 2000`.
+- It collects raw segment data and sends it to the AWS X-Ray API.
+- When the daemon is running, it works along with the AWS X-Ray SDKs.
+
+Integrations:
+- EC2:
+  - Installed, running agent.
+- ECS:
+  - Installed within tasks.
+- Lambda:
+  - Simple on/off toggle and is built-in and available for functions.
+- Elastic Beanstalk:
+  - Configuration option.
+- API Gateway:
+  - Added to stages as desired.
+- SNS and SQS:
+  - View time taken for messages in queues and topics.
+
+## Deploying GraphQL interfaces in AWS AppSync
+
+What is AppSync?
+- Robust, scalable GraphQL interface for application developers.
+- Combines data from multiple sources e.g. Dynamo DB and Lambda.
+- Enables data interaction for developers via GraphQL.
+- GraphQL: Data language that enables apps to fetch data from servers.
+- Seamless integration with React, React Native, iOS and Android.
