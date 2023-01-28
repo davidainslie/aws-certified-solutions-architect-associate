@@ -113,3 +113,48 @@ Benefits:
   - Firewall manager automatically enforces security policies that you create across existing and newly created resources, across multiple accounts.
 
 ## Monitoring S3 buckets with Macie
+
+Personal Identifiable Information (PII):
+- Personal data used to establish an individual's identity.
+- This data could be exploited by criminals, used in identity theft and financial fraud.
+- Home address, email address, Social Security number.
+- Passport number, driver's license number.
+- Date of birth, phone number, bank account, credit card number.
+
+`Macie` uses machine learning and pattern matching to discover sensistive data stored in S3:
+- Uses AI to recognise if your S3 objects contain sensitive data, such as PII, PHI (personal health information), and financial data.
+- Alerts you to unencrypted buckets.
+- Alerts you about public buckets.
+- Can also alert you about buckets shared with AWS accounts outside of those defined in your AWS organisations.
+- Great for frameworks like HIPAA (USA) and GDPR (UK).
+
+Macie can:
+- You can filter and search Macie alerts in the AWS console.
+- Alerts sent to Amazon EventBridge can be integrated with your security incident and event management system (SIEM).
+- Can be integrated with AWS Security Hub for a broader analysis of your organisation's security posture.
+- Can also be integrated with other AWS services, such as Step Functions, to automatically take remediation actions.
+
+## Securing operating systems with Inspector
+
+Amazon Inspector is an automated security assessment service that helps improve the security and compliance of applications deployed on AWS.
+It automatically assesses applications for vulnerabilities or deviations from best practices.
+
+After performing an assessment, Amazon Inspector produces a detailed list of security findings prioritised by level of severity.
+These findings can be reviewed directly or as part of detailed assessment reports that are available via the Inspector console or API.
+
+2 types of assessment:
+- Network assessments:
+  - Network configuration analysis to checks for ports reachable from outside the VPC.
+  - Inspector agent is `not` required.
+- Host assessments:
+  - Vulnerable software (CVE), host hardening (CIS benchmarks), and security best practices.
+  - Inspector agent `is` required.
+
+Steps are:
+- Create assessment target.
+- Install agents on EC2 instances - AWS will automatically install the agent for instances that allow Systems Manager Run Command.
+- Create assessment template.
+- Perform assessment run.
+- Review findings against rules.
+
+## Managing encyption keys with Key Management Service (KMS) and CloudHSM
