@@ -158,3 +158,39 @@ Steps are:
 - Review findings against rules.
 
 ## Managing encyption keys with Key Management Service (KMS) and CloudHSM
+
+AWS Key Management Service (KMS) is a managed service that makes it easy for you to create and control the encryption keys used to encrypt your data.
+
+KMS provides you with centralised control over the lifecycle and permissions of your keys.
+You can create new keys whenever you wish, and you can control who can manage keys separately from who can use them.
+
+A customer master key (CMK) is a logical representation of a master key.
+The CMK includes metadata, such as the key ID, creation date, description and key state.
+It also contains the key material used to encrypt and decrypt data.
+
+You start using the service by requesting the creation of a CMK.
+You control the lifecycle of the CMK as well as who can use or manage it.
+
+A hardware security module (HSM) is a physical computing device that safeguards and manages digital keys and performs encryption and decryption functions.
+A HSM contains one or more secure cryptoprocessor chips.
+
+3 ways to generate a CMK:
+- AWS creates the CMK for you; the key materal for a CMK is generated within HSMs managed by AWS KMS.
+- Import key materal from your own key management infrastructure and associate it with a CMK.
+- Have the key materal generated and used in an AWS CloudHSM cluster as part of the custom key store feature in AWS KMS.
+
+Policies:
+- The primary way to manage access to your AWS KMS CMKs is with policies; where policies are documents that describe who has access to what.
+- Policies attached to an IAM identity are called `identity-based policies` (or `IAM policies`); whereas policies attached to other kinds of resources are called `resource-based policies`.
+- In AWS KMS, you must attach resource-based policies to your customer master keys (CMKs); these are called `key policies`.
+
+AWS CloudHSM is a cloud-based HSM that enables you to easily generate and use your own encryption keys on the AWS cloud.
+It is a physical device, entirely dedicated to you, that can be deployed in a highly available fashion.
+
+| KMS                                   | vs   | CloudHSM                                  |
+|---------------------------------------|-----|-------------------------------------------|
+| Shared tenancy of underlying hardware |     | Dedicated HSM to you                      |
+| Automatic key rotation                |     | Full control of underlying hardware       |
+| Automatic key generation              |     | Full control of users, groups, keys, etc. |
+|                                       |     | No automatic key rotation                 |
+
