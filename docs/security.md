@@ -194,3 +194,51 @@ It is a physical device, entirely dedicated to you, that can be deployed in a hi
 | Automatic key generation              |     | Full control of users, groups, keys, etc. |
 |                                       |     | No automatic key rotation                 |
 
+## Storing your Secrets in Secrets Manager
+
+Secrets Manager is a service that securely stores, encrypts and rotates your database credentials and other secrets.
+- Encryption in transit and at rest using KMS.
+- Automatically rotates credentials.
+- Apply fine-grained access control using IAM policies.
+- Costs money but is highly scalable.
+- Your application makes an API call to Secrets Manager to retrieve the secret programmatically.
+- Reduces the risk of credentials being compromised.
+- What can be stored?
+  - RDS credentials.
+  - Credentials for non-RDS databases.
+  - Any other type of secret, provided you can store as a key/value pair e.g. ssh keys, API keys etc.
+
+Watch out: If you enable rotation, Secrets Manager immediately rotates the secret once to test the configuration.
+
+## Storing your Secrets in Parameter Store
+
+Parameter Store is a capability of AWS Systems Manager that provides secure, hierarchical storage for configuation data management and secrets management.
+You can store data such as passwords, database strings, Amazon Machine Images (AMI) IDs, and licence codes as parameter values.
+You can store values as plain text or encrypted data.
+
+Parameter Store is `free` - What is the catch? There's no catch, just limitations when compared to Secrets Manager:
+- Limit to the number of parameters you can store (currently 10,000).
+- No key rotation.
+
+## Temporarily sharing S3 objects using presigned URLs or Cookies
+
+All objects in S3 are private by default.
+
+Only the object owner has permission to access these objects.
+However, the object owner can optionally share objects with others by creating a presigned URL, using their own security credentials, to grant time-limited permission to download the objects.
+
+When you create a presigned URL for your object:
+- you must provide your security credentials
+- specify a bucket name
+- an object key
+- and indicate the HTTP method (or GET to download)
+- as well as expiration date and time
+
+Anyone who receives the presigned URL can access the object.
+For example, if you have a video in your bucket and both e bucket and the object are private, your can share the video with others by generating a presigned URL.
+
+Presigned Cookies:
+- This can be useful when you want to provide access to multiple restricted files.
+- The cookie will be saved on the user's computer, and they will be able to browse the entire contents of the restricted content.
+
+## Advanced IAM policy documents
