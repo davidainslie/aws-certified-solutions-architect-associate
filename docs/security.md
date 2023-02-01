@@ -272,3 +272,34 @@ A policy document is a list of `statements`.
 Each statement matches an `AWS API request`.
 
 ## AWS Certificate Manager
+
+- AWS Certificate Manager allows you to create, manage, deploy public and private SSL certificates for use with other AWS services.
+- It integrates with other services such as Elastic Load Balancer, CloudFront distributions, API Gateway; allowing you to easily manage and deploy SSL certificates in your AWS environment.
+- Cost:
+  - Certificate Manager provisions both public and private certificates for free.
+- Automated renewals and deployments:
+  - Certificate Manager can automate the renewal of your SSL certificate and then automatically update the new certificate with ACM-integrated services such as Elastic Load Balancer, CloudFront, API Gateway.
+- Easy to set up:
+  - Removes a lot of the manual process, such as generating a key pair or creating a certificate signing request (CSR).
+
+## Auditing continuously with AWS Audit Manager
+
+- With Audit Manager you can continuously audit your AWS usage to make sure you stay compliant with industry standards and regulations.
+- It is an automated service that produces reports specific to auditors for PCI compliance, GDPR and more.
+- Transition from manual to automated evidence collection:
+  - It allows you to produce automated reports for auditors and reduces the need to compile these reports manually.
+- Continuous auditing and compliance:
+  - It works on a continuous basis so that, as your AWS environment evolves and adapts, you can produce automated reports to evaluate your environment against industry standards (such as PCI compliance).
+- Internal risk assessments:
+  - You can create a new framework from the beginning or customise prebuilt frameworks.
+  - You can also launch assessments to automatically collect evidence helping you validate if your internal policies are being followed.
+
+## Downloading compliance documents from AWS Artifact
+
+Artifact is a single source you can visit to get the compliance related information that matters to you, such as AWS security and compliance reports or select online agreements.
+
+There are a huge number of compliance reports available such as:
+- AWS Service Organisation Control (SOC) reports.
+- Payment Card Industry (PCI) reports.
+- GDPR reports.
+- And other certifications, including ISO reports, HIPAA and more.
