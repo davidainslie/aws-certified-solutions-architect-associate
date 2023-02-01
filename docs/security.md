@@ -242,3 +242,33 @@ Presigned Cookies:
 - The cookie will be saved on the user's computer, and they will be able to browse the entire contents of the restricted content.
 
 ## Advanced IAM policy documents
+
+![ARN](images/arn.jpg)
+
+IAM policies:
+- JSON document that defines permissions
+- Identity policy
+- Resource policy
+- No effect until attached
+- List of statements
+- Not explicitly allowed == implicitly denied
+- Explicit deny > everything else
+- AWS joins all applicable policies
+- AWS managed vs customer managed
+
+example (template):
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    ...
+  }, {
+    ...
+  }]
+}
+```
+A policy document is a list of `statements`.
+
+Each statement matches an `AWS API request`.
+
+## AWS Certificate Manager
