@@ -303,3 +303,49 @@ There are a huge number of compliance reports available such as:
 - Payment Card Industry (PCI) reports.
 - GDPR reports.
 - And other certifications, including ISO reports, HIPAA and more.
+
+## Authenticating access with Amazon Cognito
+
+Cognito provides `authentication`, `authorisation`, and `user management` for your web and mobile apps in a single service without the need for custom code.
+Your users can sign in directly with a username and password they create or through a third party e.g. Facebook, Amazon, Google or Apple.
+
+Cognito provides the following features:
+- Sign-up and sign-in options for your apps.
+- Access for guest users.
+- Acts as an identity broker between your application and web ID providers, so you don't need to write any custom code.
+- Synchronises user data across multiple devices.
+- Recommended for all mobile applications that call AWS services.
+
+Cronologically:
+- Device hits (in AWS Cloud) an `User Pool` to authenticate an get a token.
+- Device then hits (in AWS Cloud) an `Identity Pool` to exchange token and get AWS credentials.
+- Device can then access AWS services using the credentials.
+
+## Analysing root cause using Amazon Detective
+
+Using Detective, you can `analyse`, `investigate`, and `identity` the root cause of potential security issues or suspicious activities.
+Detective pull data in from your AWS resources and uses `machine learning`, `statistical analysis`, and `graph theory` to build a linked set of data that enables you to figure out the root cause of your security issues.
+
+Detective uses a number of sources within your AWS account including:
+- VPC Flow logs
+- CloudTrail logs
+- Amazon Elastic kubernetes service
+- Audit logs
+- Amazon GuardDuty
+to automatically create an overview of your users, resources and interaction between them over time.
+
+## Protecting VPCs with AWS Network Firewall
+
+Network Firewall is a managed service that makes it easy to deploy physical firewall protection across your VPCs.
+It has a managed infrastructure i.e. a physical firewall that is managed by AWS.
+It includes a firewall rules engine that gives you complete control over your network traffic, allowing you to do things such as block outbound Server Message Block (SMB) requests to stop the spread of malicious activity.
+
+Think of AWS Network Firewall when:
+- questioned about filtering your network traffic before it reaches your internet gateway, or
+- if you require intrusion prevention systems, or
+- any hardware firewall requirements.
+
+## Leveraging AWS Security Hub for collection security data
+
+Security Hub is a single place to view all your security alerts from services like `Amazon GuardDuty`, `Amazon Inspector`, `Amazon Macie`, and `AWS Firewall Manager`.
+Note, it works across multiple accounts.
