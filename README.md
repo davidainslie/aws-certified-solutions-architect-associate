@@ -21,3 +21,4 @@
 - [Serverless](docs/serverless.md)
 - [Docker](docs/docker.md)
 - [Security](docs/security.md)
+- [Automation](docs/automation.md)
