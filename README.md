@@ -22,3 +22,5 @@
 - [Docker](docs/docker.md)
 - [Security](docs/security.md)
 - [Automation](docs/automation.md)
+- [Caching](docs/caching.md)
+- [Governance](docs/governace.md)
